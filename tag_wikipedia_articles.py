@@ -6,17 +6,19 @@ import gensim
 electrical_links = wikipedia.page("Index_of_electrical_engineering_articles").links
 dictionary = gensim.corpora.Dictionary()
 print "No. of keys at start ", dictionary.keys().__len__()
+count = 0
 
 # Pass 1: Prepare a dictionary
 for link in electrical_links:
     try:
         page = wikipedia.page(link)
+        title = gensim.parsing.preprocess_string(page.title)
+        content = gensim.parsing.preprocess_string(page.content)
     except:
         continue
-    title = gensim.parsing.preprocess_string(page.title)
-    content = gensim.parsing.preprocess_string(page.content)
-
+    count += 1
     dictionary.add_documents([title, content])
+    print "Adding to dictionary document ", count
 
 print "Prepared Dictionary, No. of keys after addition of data ", dictionary.keys().__len__()
 
