@@ -25,6 +25,7 @@ print "Prepared Dictionary, No. of keys after addition of data ", dictionary.key
 # Pass 2: Process topics
 lda = gensim.models.ldamodel.LdaModel(corpus=None, id2word=dictionary, num_topics=30, update_every=1, chunksize=1, passes=2)
 
+count = 0
 for link in electrical_links:
     try:
         page = wikipedia.page(link)
@@ -39,8 +40,9 @@ for link in electrical_links:
     new_bag_of_words = title_bow + content_bow
     print(content_bow)
     lda.update([content_bow])
-
+    count += 1
     print(link + ": ", lda[new_bag_of_words])
+    print(count)
 
 print "done : " + dictionary.__sizeof__()
 
